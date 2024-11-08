@@ -16,6 +16,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import datetime
 
 debugging = True
 load_dotenv()
@@ -77,6 +78,7 @@ try:
             if notification:
                 notification.click()
                 time.sleep(1.5)
+                print("Notification clicked at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                 pop_up = wait.until(
                     EC.visibility_of_element_located(By.ID, 'input-995')
                 )
@@ -85,8 +87,9 @@ try:
                 )
                 send.click()
         except Exception as e:
-            print("Notification not found. Checking again...")
-        time.sleep(120)
+            print("Notification not found. Checking again at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) 
+        minutes = 5
+        time.sleep(minutes *60)
 
 except Exception as e:
     print("An error occurred:", e)
