@@ -15,6 +15,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 import datetime
 
@@ -24,17 +26,26 @@ EMAIL = os.getenv('EMAIL')
 PASSWORD = os.getenv('PASSWORD')
 
 script_dir = Path(__file__).resolve().parent
-driver_path = script_dir.joinpath("chromedriver.exe")
+# driver_path = script_dir.joinpath("chromedriver.exe")
 
-service = Service(driver_path)
+# service = Service(driver_path)
 chrome_options = Options()
 
-if debugging:
-    chrome_options.add_experimental_option("detach",True)
-else:
-    chrome_options.add_argument("--headless")
+# if debugging:
+#     chrome_options.add_experimental_option("detach",True)
+# else:
+#     chrome_options.add_argument("--headless")
 
-driver = webdriver.Chrome(service = service, options=chrome_options)
+chrome_options.add_argument('--headless')  # Run in headless mode
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--disable-software-rasterizer')
+chrome_options.add_argument('--disable-extensions')
+chrome_options.add_argument('--disable-setuid-sandbox')
+chrome_options.add_argument('--remote-debugging-port=9222')
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
 driver.get("https://tw.amazingtalker.com/login")
 
@@ -59,6 +70,7 @@ try:
         loginBtn.click()
 
         time.sleep(2)
+        print("After Login")
 
     if not debugging:
         driver.quit()
@@ -69,24 +81,27 @@ except Exception as e:
 try: 
     while True: 
         try: 
-            wait = WebDriverWait(driver, 20)
+            wait = WebDriverWait(driver, 30)
             notification = wait.until(
-                EC.visibility_of_element_located(
+                EC.element_to_be_clickable(
                     (By.CSS_SELECTOR, ".at-notification.at-notification-student-recommend.right")
                 )
             )
-            if notification:
-                print("Found the item!")
-                notification.click()
-                time.sleep(1.5)
-                print("Notification clicked at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                pop_up = wait.until(
-                    EC.visibility_of_element_located(By.ID, 'input-995')
-                )
-                send = wait.until(
-                    EC.visibility_of_element_located(By.ID, 'contact-ticket')
-                )
-                send.click()
+            notification.click()
+            print("Notification clicked at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            time.sleep(1.5)
+            pop_up = wait.until(
+                EC.visibility_of_element_located(By.ID, 'input-995')
+            )
+            send = wait.until(
+                EC.element_to_be_clickable(By.ID, 'contact-ticket')
+            )
+            send.click()
+            print("Message sent!!!!!!")
+        except StaleElementReferenceException:
+            print("Stale element reference encountered. Retrying...")
+        except TimeoutException:
+            print("The element was not clickable within the specified time.")
         except Exception as e:
             print("Notification not found. Checking again at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) 
         minutes = 5
