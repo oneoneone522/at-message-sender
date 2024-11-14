@@ -76,6 +76,7 @@ try:
                 )
             )
             if notification:
+                print("Found the item!")
                 notification.click()
                 time.sleep(1.5)
                 print("Notification clicked at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -89,7 +90,8 @@ try:
         except Exception as e:
             print("Notification not found. Checking again at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) 
         minutes = 5
-        time.sleep(minutes *60)
+        # time.sleep(minutes *60)
+        time.sleep(5)
 
 except Exception as e:
     print("An error occurred:", e)

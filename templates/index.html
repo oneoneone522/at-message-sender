@@ -2,8 +2,12 @@
 {% block title %}{% endblock %}
 {% block content %}
 <div>
-    <h1>Start Cachting Notification</h1>
+    <h1>Click the button to start Cachting Notification</h1>
+    <form action="/get_notification"></form>
     <button>Start</button>
+    <h2 id="count-stu">Students contacted: {{stu_count}}</h2>
+    <p>Notif catched: {{message}}</p>
 </div>
+<script src="index.js"></script>
 
 {% endblock %}
