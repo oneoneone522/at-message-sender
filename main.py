@@ -81,7 +81,8 @@ except Exception as e:
 try: 
     while True: 
         try: 
-            wait = WebDriverWait(driver, 30)
+            wait = WebDriverWait(driver, 20)
+            
             notification = wait.until(
                 EC.element_to_be_clickable(
                     (By.CSS_SELECTOR, ".at-notification.at-notification-student-recommend.right")
@@ -98,6 +99,7 @@ try:
             )
             send.click()
             print("Message sent!!!!!!")
+            print("┏(-_-)┛┗(-_- )┓ ┏(-_-)┛┗(-_- )┓  ┏(-_-)┛ ┗(-_-)┓   ┏(-_-)┛ ┗(-_-)┓")
         except StaleElementReferenceException:
             print("Stale element reference encountered. Retrying...")
         except TimeoutException:
@@ -107,6 +109,18 @@ try:
         minutes = 5
         # time.sleep(minutes *60)
         time.sleep(5)
+
+        try:
+            wait = WebDriverWait(driver, 20)
+            tester = wait.until(
+                EC.element_to_be_clickable(
+                    (By.CSS_SELECTOR, "div[role='alert'].at-notification__current-message")
+                )
+            )
+            tester.click()
+            print("Tester found!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        except Exception as e:
+            print("Tester not ofund.")
 
 except Exception as e:
     print("An error occurred:", e)

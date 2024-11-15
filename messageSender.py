@@ -45,22 +45,21 @@ class MessageSender:
                 try: 
                     wait = WebDriverWait(driver, 20)
                     notification = wait.until(
-                        EC.visibility_of_element_located(
+                        EC.element_to_be_clickable(
                             (By.CSS_SELECTOR, ".at-notification.at-notification-student-recommend.right")
                         )
                     )
-                    if notification:
-                        notification.click()
-                        time.sleep(1.5)
-                        print("Notification clicked at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                        pop_up = wait.until(
-                            EC.visibility_of_element_located(By.ID, 'input-995')
-                        )
-                        send = wait.until(
-                            EC.visibility_of_element_located(By.ID, 'contact-ticket')
-                        )
-                        send.click()
-                        self.count += 1
+                    notification.click()
+                    time.sleep(1.5)
+                    print("Notification clicked at:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                    pop_up = wait.until(
+                        EC.visibility_of_element_located(By.ID, 'input-995')
+                    )
+                    send = wait.until(
+                        EC.visibility_of_element_located(By.ID, 'contact-ticket')
+                    )
+                    send.click()
+                    self.count += 1
                 except Exception as e:
                     self.message = "Notification not found. Checking again at:"
                     print(self.message, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) 
