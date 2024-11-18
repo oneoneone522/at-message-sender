@@ -2,12 +2,34 @@
 {% block title %}{% endblock %}
 {% block content %}
 <div>
+    <div class="horizontal-forms">
+        <form action="/login">
+            <button>login</button>
+        </form>
+        <div>
+            <input type="checkbox" id="remember_me" name="remember_me">
+            <label for="remember_me">Remember Me</label>
+        </div>
+        <form action="/register">
+            <button>register</button>
+        </form>
+    </div>
     <h1>Click the button to start Cachting Notification</h1>
-    <form action="/get_notification"></form>
-    <button>Start</button>
-    <h2 id="count-stu">Students contacted: {{stu_count}}</h2>
-    <p>Notif catched: {{message}}</p>
+    <div>
+        <form action="/get_notification">
+            <button>Get Notification</button>
+        </form>
+    </div>
+    <h1>Tester Check</h1>
+    <div>
+        <form action="/tester_check">
+            <button>Get message tester</button>
+        </form>
+    </div>
+    
+    <!-- <h2 id="count-stu">Students contacted: {{stu_count}}</h2>
+    <p>Notif catched: {{message}}</p> -->
 </div>
-<script src="index.js"></script>
+<!-- <script src="index.js"></script> -->
 
-{% endblock %}
+{% endblock content%}

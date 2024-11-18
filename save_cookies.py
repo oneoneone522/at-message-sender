@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -14,7 +13,7 @@ import pickle
 
 
 
-class saveCookies:
+class Cookies:
 
     def __init__(self, email, password, debugging=True):   
         # load_dotenv()
@@ -39,11 +38,12 @@ class saveCookies:
 
 
     def initializeDriver(self):
+        chrome_options = self.setChromeOption()
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
         driver.get("https://tw.amazingtalker.com/login")
         return driver
 
-    def saveCookies(self, driver):
+    def SaveCookies(self, driver):
         try: 
             wait = WebDriverWait(driver,3)
             email_input = wait.until(
